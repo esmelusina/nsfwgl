@@ -41,7 +41,7 @@ namespace nsfw
 {
 	// Keep track of the type of handle
 	enum TYPE { eNONE, VAO, IBO, VBO, SIZE, FBO, RBO, TEXTURE, SHADER, eSIZE };
-	
+	const char *TYPE_NAMES[] {"NONE","vao","ibo","vbo","tri-size","fbo","rbo","texture","shader","SIZE"};
 	// Use a handle type and name to use as an index for each asset
 	typedef std::pair<TYPE, std::string>  AssetKey;
 
@@ -79,22 +79,25 @@ namespace nsfw
 		std::unordered_map<AssetKey, GL_HANDLE, Hash> handles;
 		Assets() {}
 
+		GL_HANDLE getVERIFIED(const AssetKey &key) const;
+
+
 	public:
 		// Singleton accessor
 		static Assets &instance() { static Assets a; return a; }
 
 		//normal get handle function
-		GL_HANDLE get(TYPE t, const char *name)	const { return handles.at(AssetKey(t, name)); }
+		GL_HANDLE get(TYPE t, const char *name)	const { return getVERIFIED(AssetKey(t,name)); }
 
 		//templated Get,for sexiness
 		template<TYPE t>
-		GL_HANDLE get(const char *name)			const { return AssetKey(t, name); }
+		GL_HANDLE get(const char *name)			const { return getVERIFIED(AssetKey(t,name)); }
 
 		// Get via the Asset reference, sexier
-		GL_HANDLE get(AssetKey key)				const { return handles.at(key); }
+		GL_HANDLE get(AssetKey key)				const { return getVERIFIED(key); }
 
 		//Conveniently fetch handle using an Asset object, for even more sexy
-		GL_HANDLE operator[](AssetKey key)		const { return get(key); }
+		GL_HANDLE operator[](AssetKey key)		const { return getVERIFIED(key); }
 
 
 
@@ -102,27 +105,27 @@ namespace nsfw
 		// Fill these out!
 
 		// Should also allocate for IBO and VBO
-		void makeVAO(const char *name, struct Vertex *verts, unsigned vsize, unsigned *tris, unsigned tsize);
+		bool makeVAO(const char *name, const struct Vertex *verts, unsigned vsize, const unsigned *tris, unsigned tsize);
 
 		// should call makeTexture nTextures number of times
-		void makeFBO(const char *name, unsigned w, unsigned h, unsigned nTextures, const char *names[], unsigned depths[]);
+		bool makeFBO(const char *name, unsigned w, unsigned h, unsigned nTextures, const char *names[], unsigned depths[]);
 
 		// should allocate space for a texture, but not necessarily set its data
-		void makeTexture(const char *name, unsigned w, unsigned h, unsigned depth);
+		bool makeTexture(const char *name, unsigned w, unsigned h, unsigned depth, const char *pixels = nullptr);
 
 		// should load a texture from a file, use makeTexture to alloc, and then copy filedata in
-		void loadTexture(const char *name, const char *path);
+		bool loadTexture(const char *name, const char *path);
 	
 		// should load a shader from file
-		void loadShader(const char *name, const char *vpath, const char *fpath);
+		bool loadShader(const char *name, const char *vpath, const char *fpath);
 	
 		// should load from an FBX, adding assets to the library as they are discovered
-		void loadFBX(const char *name, const char *path);
+		bool loadFBX(const char *name, const char *path);
 
 		// Should load an OBJ from file, adding appropriate assets to the library
-		void loadOBJ(const char *name, const char *path);
+		bool loadOBJ(const char *name, const char *path);
 
 		// clear out all of the opengl handles!
-		void term();
+		bool term();
 	};
 }
