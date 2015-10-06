@@ -18,13 +18,13 @@
 namespace nsfw
 {
 	// Add whatever types you want!
-	enum UNIFORM { eNONE, FLO1, FLO3, FLO4, MAT4, INT1, TEX2, eSIZE };
+	enum class GL_UNIFORM_TYPE { eNONE, FLO1, FLO3, FLO4, MAT4, INT1, TEX2, eSIZE };
 
 	class RenderPass
 	{
 	protected:
-		Asset<FBO>	  fbo;		// All renderpasses should use an FBO. 0 is the screen!
-		Asset<SHADER> shader;	// All RPs also use a shader!
+		Asset<GL_HANDLE_TYPE::FBO>	  fbo;		// All renderpasses should use an FBO. 0 is the screen!
+		Asset<GL_HANDLE_TYPE::SHADER> shader;	// All RPs also use a shader!
 
 	public:
 		// uniforms could be set in prep, elsewhere in the application, or in the draw
@@ -35,7 +35,7 @@ namespace nsfw
 		// we want GL to normalize the data coming in or not.
 
 		// We can return whether or not the we were successful (location == -1)
-		bool setUniform(const char *name, UNIFORM type, void *value, unsigned count = 1, bool normalize = false);
+		bool setUniform(const char *name, GL_UNIFORM_TYPE type, void *value, unsigned count = 1, bool normalize = false);
 
 		// set GL state settings and globally accessible uniforms! Should be called before rendering occurs!
 		virtual void prep() {}

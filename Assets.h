@@ -40,19 +40,19 @@
 namespace nsfw
 {
 	// Keep track of the type of handle
-	enum TYPE { eNONE, VAO, IBO, VBO, SIZE, FBO, RBO, TEXTURE, SHADER, eSIZE };
-	const char *TYPE_NAMES[] {"NONE","vao","ibo","vbo","tri-size","fbo","rbo","texture","shader","SIZE"};
+	enum class GL_HANDLE_TYPE { eNONE, VAO, IBO, VBO, SIZE, FBO, RBO, TEXTURE, SHADER, eSIZE };
+	const char *TYPE_NAMES[eSize] = {"NONE","vao","ibo","vbo","tri-size","fbo","rbo","texture","shader","SIZE"};
 	// Use a handle type and name to use as an index for each asset
-	typedef std::pair<TYPE, std::string>  AssetKey;
+	typedef std::pair<GL_HANDLE_TYPE, std::string>  AssetKey;
 
 	// for explicitness
 	typedef unsigned GL_HANDLE;
 
 	// Asset reference object, used to keep a type and name associated with the
 	// manner in which the Assets arranges its keys. This is purely sugar.
-	template <TYPE T> struct Asset
+	template <GL_HANDLE_TYPE T> struct Asset
 	{
-		const TYPE t;
+		const GL_HANDLE_TYPE t;
 		std::string name;
 		Asset() {}
 		Asset(const char *n) : name(n) {}				  // construct w/string if desired
@@ -87,10 +87,10 @@ namespace nsfw
 		static Assets &instance() { static Assets a; return a; }
 
 		//normal get handle function
-		GL_HANDLE get(TYPE t, const char *name)	const { return getVERIFIED(AssetKey(t,name)); }
+		GL_HANDLE get(GL_HANDLE_TYPE t, const char *name)	const { return getVERIFIED(AssetKey(t,name)); }
 
 		//templated Get,for sexiness
-		template<TYPE t>
+		template<GL_HANDLE_TYPE t>
 		GL_HANDLE get(const char *name)			const { return getVERIFIED(AssetKey(t,name)); }
 
 		// Get via the Asset reference, sexier

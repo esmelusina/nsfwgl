@@ -1,5 +1,6 @@
 #include "nsfw.h"
 
+using nsfw::GL_HANDLE_TYPE;
 
 #ifdef _DEBUG
 #define ASSET_LOG(type) do { std::cerr << TYPE_NAMES[type] << " <-> " << name << std::endl; } while(0)
@@ -23,24 +24,24 @@ nsfw::GL_HANDLE nsfw::Assets::getVERIFIED(const AssetKey &key) const
 
 bool nsfw::Assets::makeVAO(const char * name, const struct Vertex *verts, unsigned vsize,  const unsigned * tris, unsigned tsize)
 {
-	ASSET_LOG(VBO);
-	ASSET_LOG(IBO);
-	ASSET_LOG(VAO);
-	ASSET_LOG(SIZE);
+	ASSET_LOG(GL_HANDLE_TYPE::VBO);
+	ASSET_LOG(GL_HANDLE_TYPE::IBO);
+	ASSET_LOG(GL_HANDLE_TYPE::VAO);
+	ASSET_LOG(GL_HANDLE_TYPE::SIZE);
 	TODO_D("Sould generate VBO, IBO, VAO, and SIZE using the parameters, storing them in the 'handles' map.\nThis is where vertex attributes are set!");
 	return false;
 }
 
 bool nsfw::Assets::makeFBO(const char * name, unsigned w, unsigned h, unsigned nTextures, const char * names[], unsigned depths[])
 {
-	ASSET_LOG(FBO);
+	ASSET_LOG(GL_HANDLE_TYPE::FBO);
 	TODO_D("Create an FBO! Array parameters are for the render targets, which this function should also generate!\nuse makeTexture.\nNOTE THAT THERE IS NO FUNCTION SETUP FOR MAKING RENDER BUFFER OBJECTS.");
 	return false;
 }
 
-bool nsfw::Assets::makeTexture(const char * name, unsigned w, unsigned h, unsigned depth, const char *pixels = nullptr)
+bool nsfw::Assets::makeTexture(const char * name, unsigned w, unsigned h, unsigned depth, const char *pixels)
 {
-	ASSET_LOG(TEXTURE);
+	ASSET_LOG(GL_HANDLE_TYPE::TEXTURE);
 	TODO_D("Allocate a texture using the given space/dimensions. Should work if 'pixels' is null, so that you can use this same function with makeFBO\n note that Dept will use a GL value.");
 	return false;
 }
@@ -53,7 +54,7 @@ bool nsfw::Assets::loadTexture(const char * name, const char * path)
 
 bool nsfw::Assets::loadShader(const char * name, const char * vpath, const char * fpath)
 {
-	ASSET_LOG(SHADER);
+	ASSET_LOG(GL_HANDLE_TYPE::SHADER);
 	TODO_D("Load shader from a file.");
 	return false;
 }
