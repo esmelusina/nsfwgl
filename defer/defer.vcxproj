@@ -130,7 +130,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DefApp.h" />
     <ClInclude Include="Geometry.h" />
-    <ClInclude Include="GPassP.h" />
+    <ClInclude Include="GPass.h" />
     <ClInclude Include="CPass.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LPassD.h" />

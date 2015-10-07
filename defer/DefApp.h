@@ -16,6 +16,10 @@ class DeferredApplication : public nsfw::Application
 	Geometry *m_soulspear;
 	LightD	 *m_light;
 
+	CPass *m_compositePass;
+	GPass *m_geometryPass;
+	LPassD *m_directionalLightPass;
+
 public:
 	void onInit();
 	void onStep();

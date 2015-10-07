@@ -9,6 +9,7 @@ This class should ONLY use GLFW!
 No OpenGL!!!
 *****************/
 
+#include <glm/glm.hpp>
 
 namespace nsfw
 {
@@ -21,6 +22,8 @@ namespace nsfw
 	public:
 		static Window &instance() { static Window w; return w; }
 		
+	
+
 		//create the context!
 		void init(unsigned width, unsigned height);
 		
@@ -31,10 +34,11 @@ namespace nsfw
 		void term();
 
 		// just wrap what GLFW already does
-		float	 getTime();
-		bool	 getKey(unsigned k);
-		bool	 getShouldClose();
-		unsigned getWidth();
-		unsigned getHeight();
+		float	 getTime() const;
+		bool	 getKey(unsigned k) const;
+		bool	 getShouldClose() const;
+		unsigned getWidth() const;
+		unsigned getHeight() const;
+		glm::mat4 getTexelAdjustmentMatrix() const;
 	};
 }

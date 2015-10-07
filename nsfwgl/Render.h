@@ -38,7 +38,7 @@ namespace nsfw
 		// we want GL to normalize the data coming in or not.
 
 		// We can return whether or not the we were successful (location == -1)
-		bool setUniform(const char *name, UNIFORM::TYPE type, void *value, unsigned count = 1, bool normalize = false);
+		bool setUniform(const char *name, UNIFORM::TYPE type, const void *value, unsigned count = 1, bool normalize = false);
 
 		// set GL state settings and globally accessible uniforms! Should be called before rendering occurs!
 		virtual void prep();

@@ -5,13 +5,13 @@ using namespace nsfw::ASSET;
 const char *nsfw::TYPE_NAMES[eSIZE + 1] = { "NONE","vao","ibo","vbo","tri-size","fbo","rbo","texture","shader","SIZE" };
 
 #ifdef _DEBUG
-#define ASSET_LOG(type) do { std::cerr << TYPE_NAMES[type] << " <-> " << name << std::endl; } while(0)
+#define ASSET_LOG(type) do { std::cerr << "Key Created: <" << TYPE_NAMES[type] << ">" << name << std::endl; } while(0)
 #else 
 #define ASSET_LOG(type) do {} while (0)
 #endif
 
 
-nsfw::GL_HANDLE nsfw::Assets::getVERIFIED(AssetKey key) const
+nsfw::GL_HANDLE nsfw::Assets::getVERIFIED(const AssetKey &key) const
 {
 #ifdef _DEBUG
 			if (!handles.count(key))
@@ -27,7 +27,7 @@ bool nsfw::Assets::setINTERNAL(ASSET::GL_HANDLE_TYPE t, char *name, GL_HANDLE ha
 {
 	AssetKey key(t, name);
 #ifdef _DEBUG
-	if (!handles.count(key))
+	if (handles.count(key))
 	{
 		std::cerr << "Asset Key already exists: <" << TYPE_NAMES[key.first] << ">" << key.second << " ignoring." << std::endl;
 		return false;
@@ -90,19 +90,22 @@ bool nsfw::Assets::loadOBJ(const char * name, const char * path)
 
 void nsfw::Assets::init()
 {
+	TODO_D("Load up some default assets here if you want.");
+	
 	setINTERNAL(FBO,"Screen",0);
+	
 	makeVAO("Cube",CubeVerts,24,CubeTris,36);
 	makeVAO("Quad",QuadVerts,4, QuadTris,6);
-
 	/*
 	char w[] = { 255,255,255,255 };
-	makeTexture("White", 1, 1, GL_RGBA, w);
+	makeTexture("White", 1, 1, GL_RGB8, w);
 	*/
-	TODO_D("Load up some default assets here if you want.");
+
 }
 
 void nsfw::Assets::term()
 {
+	TODO();
 	for each(std::pair<AssetKey,unsigned> k in handles)
 	{
 		switch (k.first.first)
@@ -116,7 +119,6 @@ void nsfw::Assets::term()
 		case FBO:		TODO_D("FBO deletion");		break;
 		}
 	}
-	TODO();
 }
 
 

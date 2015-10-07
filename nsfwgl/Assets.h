@@ -60,10 +60,10 @@ namespace nsfw
 		const ASSET::GL_HANDLE_TYPE t;
 		std::string name;
 		Asset() : t(T), name("") {}
-		Asset(const char *n) : name(n) {}								// construct w/string if desired
-		Asset &operator=(const char *s) { name = s; return *this; }		// conviently assign strings directly to reference		
-		operator AssetKey() { return AssetKey(t, name); }				// for use with Assets::Operator[]
-		GL_HANDLE operator*() { Assets::instance()[*this]; }			// Overload value-of operator, to dereference
+		Asset(const char *n) : name(n), t(T) {}								 // construct w/string if desired
+		Asset &operator=(const char *s) { name = s; return *this; }			 // conviently assign strings directly to reference		
+		operator AssetKey() const { return AssetKey(t, name); }				 // for use with Assets::Operator[]
+		const void *operator*() const { return Assets::instance()[*this]; } // Overload value-of operator, to dereference
 	};
 
 	/*
@@ -83,7 +83,7 @@ namespace nsfw
 		std::unordered_map<AssetKey, GL_HANDLE, Hash> handles;
 		Assets() {}
 
-		GL_HANDLE getVERIFIED( AssetKey key) const;
+		GL_HANDLE getVERIFIED(const AssetKey &key) const;
 
 		bool setINTERNAL(ASSET::GL_HANDLE_TYPE t, char *name, GL_HANDLE handle);
 	public:
@@ -98,10 +98,10 @@ namespace nsfw
 		GL_HANDLE get(const char *name)			const { return getVERIFIED(AssetKey(t,name)); }
 
 		// Get via the Asset reference, sexier
-		GL_HANDLE get(AssetKey key)				const { return getVERIFIED(key); }
+		GL_HANDLE get(const AssetKey &key)				const { return getVERIFIED(key); }
 
 		//Conveniently fetch handle using an Asset object, for even more sexy
-		GL_HANDLE operator[](AssetKey key)		const { return getVERIFIED(key); }
+		const void *operator[](const AssetKey &key) const { return handles.find(key)._Ptr; }
 
 
 
