@@ -35,7 +35,7 @@ void DeferredApplication::onInit()
 
 	const char *lpassTextureNames[] = { "LPassColor" };
 	const unsigned lpassDepths[] = { 0 }; // GL_RGB8
-	a.makeFBO("LightPass", w.getWidth(), w.getHeight(), 1, lpassTextureNames, lpassDepths); //
+	a.makeFBO("LightPass", w.getWidth(), w.getHeight(), 1, lpassTextureNames, lpassDepths); 
 
 	// Load Shaders
 	a.loadShader("GeometryPassPhong", "/path/to/gpass/Phong/vertex", "/path/to/gpass/Phong/fragment");
