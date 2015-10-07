@@ -1,15 +1,9 @@
 #pragma once
 
-
-#include "Window.h"
-#include "Assets.h"
-#include "render.h"
-#include "Application.h"
-
-
 #include <iostream>
 #include <cstring>
 
+//this garbage needs to come before the includes below
 // http://stackoverflow.com/questions/8487986/file-macro-shows-full-path
 #define __FILENAME__ (strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 
@@ -25,3 +19,9 @@
 #define TODO()	  do{}while(0)
 #define TODO_D(A) do{}while(0)
 #endif
+
+
+#include "Window.h"
+#include "Assets.h"
+#include "render.h"
+#include "Application.h"
