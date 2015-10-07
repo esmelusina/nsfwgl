@@ -2,7 +2,7 @@
 
 void nsfw::Window::init(unsigned width, unsigned height)
 {
-	TODO_D("Should create and set an active windowing context. ONLY GLFW! No GL!");
+	TODO_D("Should create and set active a windowing context. ONLY GLFW! No GL!");
 }
 
 void nsfw::Window::step()

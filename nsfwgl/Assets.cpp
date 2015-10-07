@@ -5,7 +5,7 @@ using namespace nsfw::ASSET;
 const char *nsfw::TYPE_NAMES[eSIZE + 1] = { "NONE","vao","ibo","vbo","tri-size","fbo","rbo","texture","shader","SIZE" };
 
 #ifdef _DEBUG
-#define ASSET_LOG(type) do { std::cerr << "Trying to create key: <" << TYPE_NAMES[type] << ">" << name << std::endl; } while(0)
+#define ASSET_LOG(type) do { std::cerr << "Key Created: <" << TYPE_NAMES[type] << ">" << name << std::endl; } while(0)
 #else 
 #define ASSET_LOG(type) do {} while (0)
 #endif
