@@ -29,8 +29,8 @@ namespace nsfw
 		void play()
 		{
 			onPlay();
-			while (!Window::instance().getShouldClose())
-				step();
+
+		do { step(); } while (!Window::instance().getShouldClose());
 		}
 
 		void step()
