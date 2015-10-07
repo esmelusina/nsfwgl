@@ -40,25 +40,30 @@
 namespace nsfw
 {
 	// Keep track of the type of handle
-	enum class GL_HANDLE_TYPE { eNONE, VAO, IBO, VBO, SIZE, FBO, RBO, TEXTURE, SHADER, eSIZE };
-	const char *TYPE_NAMES[eSize] = {"NONE","vao","ibo","vbo","tri-size","fbo","rbo","texture","shader","SIZE"};
+	namespace ASSET
+	{
+		enum GL_HANDLE_TYPE { eNONE, VAO, IBO, VBO, SIZE, FBO, RBO, TEXTURE, SHADER, eSIZE };
+		
+	}
+		
+	extern const char *TYPE_NAMES[];
 	// Use a handle type and name to use as an index for each asset
-	typedef std::pair<GL_HANDLE_TYPE, std::string>  AssetKey;
+	typedef std::pair<ASSET::GL_HANDLE_TYPE, std::string>  AssetKey;
 
 	// for explicitness
 	typedef unsigned GL_HANDLE;
 
 	// Asset reference object, used to keep a type and name associated with the
 	// manner in which the Assets arranges its keys. This is purely sugar.
-	template <GL_HANDLE_TYPE T> struct Asset
+	template <ASSET::GL_HANDLE_TYPE T> struct Asset
 	{
-		const GL_HANDLE_TYPE t;
+		const ASSET::GL_HANDLE_TYPE t;
 		std::string name;
 		Asset() {}
-		Asset(const char *n) : name(n) {}				  // construct w/string if desired
-		operator=(const char *s) { name = s; }			  // conviently assign strings directly to reference		
-		operator AssetKey() { return AssetKey(t, name); } // for use with Assets::Operator[]
-		GL_HANDLE operator*() { Assets::instance()[*this]; } // Overload value-of operator, to dereference
+		Asset(const char *n) : name(n) {}								// construct w/string if desired
+		Asset *operator=(const char *s) { name = s; return *this; }		// conviently assign strings directly to reference		
+		operator AssetKey() { return AssetKey(t, name); }				// for use with Assets::Operator[]
+		GL_HANDLE operator*() { Assets::instance()[*this]; }			// Overload value-of operator, to dereference
 	};
 
 
@@ -73,13 +78,13 @@ namespace nsfw
 	{
 	private:
 		// Hashing functor object for accepting pair<enum,string> as an index.
-		struct Hash { size_t operator()(AssetKey k) { return std::hash<std::string>()(k.second) + (unsigned)k.first; } };
+		struct Hash { size_t operator()(AssetKey k) const { return std::hash<std::string>()(k.second) + (unsigned)k.first; } };
 		
 		// Store all of our keys in one place!
 		std::unordered_map<AssetKey, GL_HANDLE, Hash> handles;
 		Assets() {}
 
-		GL_HANDLE getVERIFIED(const AssetKey &key) const;
+		GL_HANDLE getVERIFIED( AssetKey key) const;
 
 
 	public:
@@ -87,10 +92,10 @@ namespace nsfw
 		static Assets &instance() { static Assets a; return a; }
 
 		//normal get handle function
-		GL_HANDLE get(GL_HANDLE_TYPE t, const char *name)	const { return getVERIFIED(AssetKey(t,name)); }
+		GL_HANDLE get(ASSET::GL_HANDLE_TYPE t, const char *name)	const { return getVERIFIED(AssetKey(t,name)); }
 
 		//templated Get,for sexiness
-		template<GL_HANDLE_TYPE t>
+		template<ASSET::GL_HANDLE_TYPE t>
 		GL_HANDLE get(const char *name)			const { return getVERIFIED(AssetKey(t,name)); }
 
 		// Get via the Asset reference, sexier
@@ -101,8 +106,9 @@ namespace nsfw
 
 
 
-		////////////
-		// Fill these out!
+		/////////////////////
+		// Fill these out! //
+		/////////////////////
 
 		// Should also allocate for IBO and VBO
 		bool makeVAO(const char *name, const struct Vertex *verts, unsigned vsize, const unsigned *tris, unsigned tsize);

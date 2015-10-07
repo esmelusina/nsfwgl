@@ -1,6 +1,8 @@
 #include "nsfw.h"
 
-using nsfw::GL_HANDLE_TYPE;
+using namespace nsfw::ASSET;
+
+const char *nsfw::TYPE_NAMES[eSIZE + 1] = { "NONE","vao","ibo","vbo","tri-size","fbo","rbo","texture","shader","SIZE" };
 
 #ifdef _DEBUG
 #define ASSET_LOG(type) do { std::cerr << TYPE_NAMES[type] << " <-> " << name << std::endl; } while(0)
@@ -9,7 +11,7 @@ using nsfw::GL_HANDLE_TYPE;
 #endif
 
 
-nsfw::GL_HANDLE nsfw::Assets::getVERIFIED(const AssetKey &key) const
+nsfw::GL_HANDLE nsfw::Assets::getVERIFIED(AssetKey key) const
 {
 #ifdef _DEBUG
 			if (!handles.count(key))
@@ -28,7 +30,7 @@ bool nsfw::Assets::makeVAO(const char * name, const struct Vertex *verts, unsign
 	ASSET_LOG(GL_HANDLE_TYPE::IBO);
 	ASSET_LOG(GL_HANDLE_TYPE::VAO);
 	ASSET_LOG(GL_HANDLE_TYPE::SIZE);
-	TODO_D("Sould generate VBO, IBO, VAO, and SIZE using the parameters, storing them in the 'handles' map.\nThis is where vertex attributes are set!");
+	TODO_D("Should generate VBO, IBO, VAO, and SIZE using the parameters, storing them in the 'handles' map.\nThis is where vertex attributes are set!");
 	return false;
 }
 
@@ -48,7 +50,7 @@ bool nsfw::Assets::makeTexture(const char * name, unsigned w, unsigned h, unsign
 
 bool nsfw::Assets::loadTexture(const char * name, const char * path)
 {
-	TODO_D("This should load a texture frome a file, using makeTexture to perform the allocation.\nUse STBI, and make sure you switch the format STBI provides to match what openGL needs!");
+	TODO_D("This should load a texture from a file, using makeTexture to perform the allocation.\nUse STBI, and make sure you switch the format STBI provides to match what openGL needs!");
 	return false;
 }
 

@@ -119,15 +119,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Assets.cpp" />
+    <ClCompile Include="render.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="nsfwApp.h" />
+    <ClInclude Include="Application.h" />
     <ClInclude Include="Assets.h" />
-    <ClInclude Include="Object.h" />
     <ClInclude Include="nsfw.h" />
-    <ClInclude Include="Render.h" />
+    <ClInclude Include="render.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

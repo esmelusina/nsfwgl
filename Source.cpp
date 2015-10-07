@@ -1,5 +1,5 @@
 
-#include "nsfwApp.h"
+#include "Application.h"
 using namespace nsfw;
 
 void main()
@@ -9,4 +9,6 @@ void main()
 	d.init(800,600);
 	d.play();
 	d.term();
+
+	system("pause");
 }

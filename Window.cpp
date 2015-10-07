@@ -13,7 +13,6 @@ void nsfw::Window::step()
 void nsfw::Window::term()
 {
 	TODO();
-
 }
 
 float nsfw::Window::getTime()
@@ -31,7 +30,7 @@ bool nsfw::Window::getKey(unsigned k)
 bool nsfw::Window::getShouldClose()
 {
 	TODO();
-	return false;
+	return true;
 }
 
 unsigned nsfw::Window::getWidth()
