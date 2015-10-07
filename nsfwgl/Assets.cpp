@@ -23,6 +23,21 @@ nsfw::GL_HANDLE nsfw::Assets::getVERIFIED(AssetKey key) const
 			return handles.at(key);
 }
 
+bool nsfw::Assets::setINTERNAL(ASSET::GL_HANDLE_TYPE t, char *name, GL_HANDLE handle)
+{
+	AssetKey key(t, name);
+#ifdef _DEBUG
+	if (!handles.count(key))
+	{
+		std::cerr << "Asset Key already exists: <" << TYPE_NAMES[key.first] << ">" << key.second << " ignoring." << std::endl;
+		return false;
+	}
+	else std::cerr << "Asset Key successfully created: <" << TYPE_NAMES[key.first] << ">" << key.second << std::endl;
+#endif
+	handles[key] = handle;
+	return true;
+}
+
 
 bool nsfw::Assets::makeVAO(const char * name, const struct Vertex *verts, unsigned vsize,  const unsigned * tris, unsigned tsize)
 {
@@ -34,7 +49,7 @@ bool nsfw::Assets::makeVAO(const char * name, const struct Vertex *verts, unsign
 	return false;
 }
 
-bool nsfw::Assets::makeFBO(const char * name, unsigned w, unsigned h, unsigned nTextures, const char * names[], unsigned depths[])
+bool nsfw::Assets::makeFBO(const char * name, unsigned w, unsigned h, unsigned nTextures, const char * names[], const unsigned depths[])
 {
 	ASSET_LOG(GL_HANDLE_TYPE::FBO);
 	TODO_D("Create an FBO! Array parameters are for the render targets, which this function should also generate!\nuse makeTexture.\nNOTE THAT THERE IS NO FUNCTION SETUP FOR MAKING RENDER BUFFER OBJECTS.");
@@ -73,9 +88,35 @@ bool nsfw::Assets::loadOBJ(const char * name, const char * path)
 	return false;
 }
 
-bool nsfw::Assets::term()
+void nsfw::Assets::init()
 {
-	TODO_D("Mui importante!\nMake sure you delete all of the handled data.\n You can iterate through the map, using the key's first element (type enum) in a switch.\nResearch or ask how to access said info in an iterator!");
-	return false;
+	setINTERNAL(FBO,"Screen",0);
+	makeVAO("Cube",CubeVerts,24,CubeTris,36);
+	makeVAO("Quad",QuadVerts,4, QuadTris,6);
+
+	/*
+	char w[] = { 255,255,255,255 };
+	makeTexture("White", 1, 1, GL_RGBA, w);
+	*/
+	TODO_D("Load up some default assets here if you want.");
 }
+
+void nsfw::Assets::term()
+{
+	for each(std::pair<AssetKey,unsigned> k in handles)
+	{
+		switch (k.first.first)
+		{
+		case VBO:		TODO_D("VBO deletion");		break;
+		case IBO:		TODO_D("IBO deletion");		break;
+		case VAO:		TODO_D("VAO deletion");		break;
+		case SHADER:	TODO_D("Shader deletion");	break;
+		case TEXTURE:	TODO_D("Texture deletion"); break;
+		case RBO:		TODO_D("RBO deletion");		break;
+		case FBO:		TODO_D("FBO deletion");		break;
+		}
+	}
+	TODO();
+}
+
 

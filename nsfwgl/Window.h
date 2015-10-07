@@ -17,7 +17,7 @@ namespace nsfw
 		class GLFWWindow *window;
 		unsigned width, height;		// keep track of width height- needed for glViewport FBO integration
 
-		Window() {}
+		Window():window(nullptr),width(0),height(0) {}
 	public:
 		static Window &instance() { static Window w; return w; }
 		

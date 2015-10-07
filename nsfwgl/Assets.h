@@ -59,13 +59,12 @@ namespace nsfw
 	{
 		const ASSET::GL_HANDLE_TYPE t;
 		std::string name;
-		Asset() {}
+		Asset() : t(T), name("") {}
 		Asset(const char *n) : name(n) {}								// construct w/string if desired
-		Asset *operator=(const char *s) { name = s; return *this; }		// conviently assign strings directly to reference		
+		Asset &operator=(const char *s) { name = s; return *this; }		// conviently assign strings directly to reference		
 		operator AssetKey() { return AssetKey(t, name); }				// for use with Assets::Operator[]
 		GL_HANDLE operator*() { Assets::instance()[*this]; }			// Overload value-of operator, to dereference
 	};
-
 
 	/*
 		Asset management singleton. It should be the only place that the glGen**** functions
@@ -86,7 +85,7 @@ namespace nsfw
 
 		GL_HANDLE getVERIFIED( AssetKey key) const;
 
-
+		bool setINTERNAL(ASSET::GL_HANDLE_TYPE t, char *name, GL_HANDLE handle);
 	public:
 		// Singleton accessor
 		static Assets &instance() { static Assets a; return a; }
@@ -114,7 +113,7 @@ namespace nsfw
 		bool makeVAO(const char *name, const struct Vertex *verts, unsigned vsize, const unsigned *tris, unsigned tsize);
 
 		// should call makeTexture nTextures number of times
-		bool makeFBO(const char *name, unsigned w, unsigned h, unsigned nTextures, const char *names[], unsigned depths[]);
+		bool makeFBO(const char *name, unsigned w, unsigned h, unsigned nTextures, const char *names[], const unsigned depths[]);
 
 		// should allocate space for a texture, but not necessarily set its data
 		bool makeTexture(const char *name, unsigned w, unsigned h, unsigned depth, const char *pixels = nullptr);
@@ -131,7 +130,9 @@ namespace nsfw
 		// Should load an OBJ from file, adding appropriate assets to the library
 		bool loadOBJ(const char *name, const char *path);
 
+		//load some default assets
+		void init();
 		// clear out all of the opengl handles!
-		bool term();
+		void term();
 	};
 }
