@@ -31,6 +31,9 @@ public:
         nsfw::Assets::instance().get(g.mesh);
         nsfw::Assets::instance().get(g.tris);
 
+        *g.mesh;
+        *g.tris;
+
 		TODO_D("bindVAO and Draw Elements!");
 	}
 };
