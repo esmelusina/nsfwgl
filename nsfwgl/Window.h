@@ -22,8 +22,6 @@ namespace nsfw
 	public:
 		static Window &instance() { static Window w; return w; }
 		
-	
-
 		//create the context!
 		void init(unsigned width, unsigned height);
 		
@@ -34,11 +32,11 @@ namespace nsfw
 		void term();
 
 		// just wrap what GLFW already does
-		float	 getTime() const;
-		bool	 getKey(unsigned k) const;
-		bool	 getShouldClose() const;
-		unsigned getWidth() const;
-		unsigned getHeight() const;
+		float	  getTime()                  const;
+		bool	  getKey(unsigned k)         const;
+		bool	  getShouldClose()           const;
+		unsigned  getWidth()                 const;
+		unsigned  getHeight()                const;
 		glm::mat4 getTexelAdjustmentMatrix() const;
 	};
 }

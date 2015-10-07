@@ -97,7 +97,7 @@ void nsfw::Assets::init()
 	setINTERNAL(FBO,"Screen",0);
 	
 	makeVAO("Cube",CubeVerts,24,CubeTris,36);
-	makeVAO("Quad",QuadVerts,4, QuadTris,6);
+	makeVAO("Quad",QuadVerts, 4, QuadTris,6);
 	/*
 	char w[] = { 255,255,255,255 };
 	makeTexture("White", 1, 1, GL_RGB8, w);

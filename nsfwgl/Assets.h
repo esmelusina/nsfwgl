@@ -63,8 +63,10 @@ namespace nsfw
 		Asset(const char *n) : name(n), t(T) {}								 // construct w/string if desired
 		Asset &operator=(const char *s) { name = s; return *this; }			 // conviently assign strings directly to reference		
 		operator AssetKey() const { return AssetKey(t, name); }				 // for use with Assets::Operator[]
-		const void *operator*() const { return Assets::instance()[*this]; } // Overload value-of operator, to dereference
-	};
+		GL_HANDLE operator*() const { return Assets::instance()[*this]; } // Overload value-of operator, to dereference
+
+        operator const void*() const { return Assets::instance().getUNIFORM(*this); }
+    };
 
 	/*
 		Asset management singleton. It should be the only place that the glGen**** functions
@@ -101,8 +103,9 @@ namespace nsfw
 		GL_HANDLE get(const AssetKey &key)				const { return getVERIFIED(key); }
 
 		//Conveniently fetch handle using an Asset object, for even more sexy
-		const void *operator[](const AssetKey &key) const { return handles.find(key)._Ptr; }
+        GL_HANDLE operator[](const AssetKey &key) const { return getVERIFIED(key); }
 
+        const void *getUNIFORM(const AssetKey &key) { return handles.find(key)._Ptr; }
 
 
 		/////////////////////

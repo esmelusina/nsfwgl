@@ -21,15 +21,16 @@ public:
 		setUniform("View",			nsfw::UNIFORM::TYPE::MAT4, glm::value_ptr(c.getView()));
 		setUniform("Model",			nsfw::UNIFORM::TYPE::MAT4, glm::value_ptr(g.transform));
 
-		setUniform("Diffuse",		nsfw::UNIFORM::TEX2,  *g.diffuse, 0);
-		setUniform("Normal",		nsfw::UNIFORM::TEX2,  *g.normal,  1);
-		setUniform("Specular",		nsfw::UNIFORM::TEX2,  *g.specular,2);
+		setUniform("Diffuse",		nsfw::UNIFORM::TEX2,  g.diffuse,  0);
+		setUniform("Normal",		nsfw::UNIFORM::TEX2,  g.normal,   1);
+		setUniform("Specular",		nsfw::UNIFORM::TEX2,  g.specular, 2);
 
 		setUniform("SpecularPower", nsfw::UNIFORM::FLO1, (void*)&g.specPower);
 
 		
-		*g.mesh; // VAO!
-		*g.tris; // TRIS!
+        nsfw::Assets::instance().get(g.mesh);
+        nsfw::Assets::instance().get(g.tris);
+
 		TODO_D("bindVAO and Draw Elements!");
 	}
 };
