@@ -65,7 +65,6 @@ namespace nsfw
 		operator AssetKey() const { return AssetKey(t, name); }				 // for use with Assets::Operator[]
 		GL_HANDLE operator*() const { return Assets::instance()[*this]; } // Overload value-of operator, to dereference
         const void* operator&() const { return Assets::instance().getUNIFORM(*this); }
-        operator const void*() const { return Assets::instance().getUNIFORM(*this); }
     };
 
 	/*
@@ -79,7 +78,7 @@ namespace nsfw
 	{
 	private:
 		// Hashing functor object for accepting pair<enum,string> as an index.
-		struct Hash { size_t operator()(AssetKey k) const { return std::hash<std::string>()(k.second) + (unsigned)k.first; } };
+		struct Hash { size_t operator()(AssetKey k) const { return std::hash<std::string>()(k.second += (unsigned)k.first); } };
 		
 		// Store all of our keys in one place!
 		std::unordered_map<AssetKey, GL_HANDLE, Hash> handles;
@@ -87,7 +86,7 @@ namespace nsfw
 
 		GL_HANDLE getVERIFIED(const AssetKey &key) const;
 
-		bool setINTERNAL(ASSET::GL_HANDLE_TYPE t, char *name, GL_HANDLE handle);
+		bool setINTERNAL(ASSET::GL_HANDLE_TYPE t, const char *name, GL_HANDLE handle);
 	public:
 		// Singleton accessor
 		static Assets &instance() { static Assets a; return a; }
@@ -105,7 +104,7 @@ namespace nsfw
 		//Conveniently fetch handle using an Asset object, for even more sexy
         GL_HANDLE operator[](const AssetKey &key) const { return getVERIFIED(key); }
 
-        const void *getUNIFORM(const AssetKey &key) { return handles.find(key)._Ptr; }
+        const void *getUNIFORM(const AssetKey &key) { return &handles.find(key)._Ptr->_Myval.second; }
 
 
 		/////////////////////

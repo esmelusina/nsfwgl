@@ -23,7 +23,7 @@ nsfw::GL_HANDLE nsfw::Assets::getVERIFIED(const AssetKey &key) const
 			return handles.at(key);
 }
 
-bool nsfw::Assets::setINTERNAL(ASSET::GL_HANDLE_TYPE t, char *name, GL_HANDLE handle)
+bool nsfw::Assets::setINTERNAL(ASSET::GL_HANDLE_TYPE t, const char *name, GL_HANDLE handle)
 {
 	AssetKey key(t, name);
 #ifdef _DEBUG

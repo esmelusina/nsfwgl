@@ -11,11 +11,13 @@ No OpenGL!!!
 
 #include <glm/glm.hpp>
 
+class GLFWwindow;
+
 namespace nsfw
 {
 	class Window
 	{
-		class GLFWWindow *window;
+		GLFWwindow *window;
 		unsigned width, height;		// keep track of width height- needed for glViewport FBO integration
 
 		Window():window(nullptr),width(0),height(0) {}
@@ -23,7 +25,7 @@ namespace nsfw
 		static Window &instance() { static Window w; return w; }
 		
 		//create the context!
-		void init(unsigned width, unsigned height);
+		void init(unsigned width, unsigned height, const char *title = "NSFW");
 		
 		// swapBuffers and pollEvents!
 		void step();

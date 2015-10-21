@@ -1,6 +1,6 @@
 #include "nsfw.h"
 
-void nsfw::Window::init(unsigned width, unsigned height)
+void nsfw::Window::init(unsigned width, unsigned height, const char *title)
 {
 	TODO_D("Should create and set an active windowing context. ONLY GLFW! No GL!");
 }
