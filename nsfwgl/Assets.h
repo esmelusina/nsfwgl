@@ -62,8 +62,8 @@ namespace nsfw
 		Asset() : t(T), name("") {}
 		Asset(const char *n) : name(n), t(T) {}								 // construct w/string if desired
 		Asset &operator=(const char *s) { name = s; return *this; }			 // conviently assign strings directly to reference		
-		operator AssetKey() const { return AssetKey(t, name); }				 // for use with Assets::Operator[]
-		GL_HANDLE operator*() const { return Assets::instance()[*this]; } // Overload value-of operator, to dereference
+		operator AssetKey()		const { return AssetKey(t, name); }				 // for use with Assets::Operator[]
+		GL_HANDLE operator*()	const { return Assets::instance()[*this]; } // Overload value-of operator, to dereference
         const void* operator&() const { return Assets::instance().getUNIFORM(*this); }
     };
 
@@ -77,34 +77,24 @@ namespace nsfw
 	class Assets
 	{
 	private:
-		// Hashing functor object for accepting pair<enum,string> as an index.
 		struct Hash { size_t operator()(AssetKey k) const { return std::hash<std::string>()(k.second += (unsigned)k.first); } };
-		
-		// Store all of our keys in one place!
 		std::unordered_map<AssetKey, GL_HANDLE, Hash> handles;
+
 		Assets() {}
 
 		GL_HANDLE getVERIFIED(const AssetKey &key) const;
-
 		bool setINTERNAL(ASSET::GL_HANDLE_TYPE t, const char *name, GL_HANDLE handle);
+	
+	
 	public:
-		// Singleton accessor
 		static Assets &instance() { static Assets a; return a; }
-
-		//normal get handle function
 		GL_HANDLE get(ASSET::GL_HANDLE_TYPE t, const char *name)	const { return getVERIFIED(AssetKey(t,name)); }
-
-		//templated Get,for sexiness
 		template<ASSET::GL_HANDLE_TYPE t>
-		GL_HANDLE get(const char *name)			const { return getVERIFIED(AssetKey(t,name)); }
-
-		// Get via the Asset reference, sexier
-		GL_HANDLE get(const AssetKey &key)				const { return getVERIFIED(key); }
-
-		//Conveniently fetch handle using an Asset object, for even more sexy
-        GL_HANDLE operator[](const AssetKey &key) const { return getVERIFIED(key); }
-
-		//fetch a void pointer to the handle value, primarily used for passing into the setUniform function.
+		GL_HANDLE get(const char *name)								const { return getVERIFIED(AssetKey(t,name)); }
+		GL_HANDLE get(const AssetKey &key)							const { return getVERIFIED(key); }
+        GL_HANDLE operator[](const AssetKey &key)					const { return getVERIFIED(key); }
+		
+		// Getter to fetch void *value pointer
         const void *getUNIFORM(const AssetKey &key) { return &handles.find(key)._Ptr->_Myval.second; }
 
 
@@ -135,6 +125,7 @@ namespace nsfw
 
 		//load some default assets
 		void init();
+
 		// clear out all of the opengl handles!
 		void term();
 	};
