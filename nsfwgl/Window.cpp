@@ -1,49 +1,39 @@
+#include <ogl\gl_core_4_4.h>
+#include <glfw\glfw3.h>
+
 #include "nsfw.h"
 
 void nsfw::Window::init(unsigned width, unsigned height, const char *title)
 {
-	TODO_D("Should create and set an active windowing context. ONLY GLFW! No GL!");
-}
-
-void nsfw::Window::step()
-{
-	TODO_D("GLFW poll events and swap buffers is all that should really be here! No GL!");
+	glfwInit();
+	window = glfwCreateWindow(width,height, title, nullptr, nullptr);
+	glfwMakeContextCurrent(window);
+	ogl_LoadFunctions();
 }
 
 void nsfw::Window::term()
 {
-	TODO();
+	glfwDestroyWindow(window);
+	glfwTerminate();
 }
 
-float nsfw::Window::getTime() const
+void nsfw::Window::step()
 {
-	TODO();
-	return 0.0f;
+	glfwSwapBuffers(window);
+	glfwPollEvents();
 }
 
-bool nsfw::Window::getKey(unsigned k) const
-{
-	TODO();
-	return false;
-}
+float nsfw::Window::getTime()		  const { return glfwGetTime(); }
+bool nsfw::Window::getKey(unsigned k) const { return glfwGetKey(window, k); }
 
 bool nsfw::Window::getShouldClose() const
 {
-	TODO();
-	return true;
+	return glfwWindowShouldClose(window) == true ||
+	 glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
 }
 
-unsigned nsfw::Window::getWidth() const
-{
-	TODO();
-	return 0;
-}
-
-unsigned nsfw::Window::getHeight() const
-{
-	TODO();
-	return 0;
-}
+unsigned nsfw::Window::getWidth()  const { return width; }
+unsigned nsfw::Window::getHeight() const { return height; }
 
 glm::mat4 nsfw::Window::getTexelAdjustmentMatrix() const
 {
