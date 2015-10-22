@@ -14,7 +14,7 @@ namespace nsfw
 
 		void init(int width = 800, int height = 600, const char *name = "Not Suited For Work")
 		{
-			Window::instance().init(width, height,name);
+			Window::instance().init(width, height, name);
 			Assets::instance().init();
 			onInit();
 		}
