@@ -32,6 +32,12 @@ bool nsfw::Assets::setINTERNAL(ASSET::GL_HANDLE_TYPE t, const char *name, GL_HAN
 		std::cerr << "Asset Key already exists: <" << TYPE_NAMES[key.first] << ">" << key.second << " ignoring." << std::endl;
 		return false;
 	}
+	else if (handle == 0)
+	{
+		std::cerr << "Handle is invalid: <" << TYPE_NAMES[key.first] << ">" << key.second << " ignoring." << std::endl;
+		return false;
+
+	}
 	else std::cerr << "Asset Key successfully created: <" << TYPE_NAMES[key.first] << ">" << key.second << std::endl;
 #endif
 	handles[key] = handle;

@@ -104,6 +104,7 @@ namespace nsfw
 		//Conveniently fetch handle using an Asset object, for even more sexy
         GL_HANDLE operator[](const AssetKey &key) const { return getVERIFIED(key); }
 
+		//fetch a void pointer to the handle value, primarily used for passing into the setUniform function.
         const void *getUNIFORM(const AssetKey &key) { return &handles.find(key)._Ptr->_Myval.second; }
 
 
