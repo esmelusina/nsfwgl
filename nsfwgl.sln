@@ -10,6 +10,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "defer", "defer\defer.vcxpro
 		{84A3F7CF-0D6A-447C-BA5E-BBCC5CCB6F6B} = {84A3F7CF-0D6A-447C-BA5E-BBCC5CCB6F6B}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "nsfw_test", "nsfw_test\nsfw_test.vcxproj", "{BEEE4F49-EEF7-4804-9F9D-6CFB1D2A37E4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{84A3F7CF-0D6A-447C-BA5E-BBCC5CCB6F6B} = {84A3F7CF-0D6A-447C-BA5E-BBCC5CCB6F6B}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -34,6 +39,14 @@ Global
 		{A0198775-E37C-4B9A-A15C-4B152D0AF15F}.Release|x64.Build.0 = Release|x64
 		{A0198775-E37C-4B9A-A15C-4B152D0AF15F}.Release|x86.ActiveCfg = Release|Win32
 		{A0198775-E37C-4B9A-A15C-4B152D0AF15F}.Release|x86.Build.0 = Release|Win32
+		{BEEE4F49-EEF7-4804-9F9D-6CFB1D2A37E4}.Debug|x64.ActiveCfg = Debug|x64
+		{BEEE4F49-EEF7-4804-9F9D-6CFB1D2A37E4}.Debug|x64.Build.0 = Debug|x64
+		{BEEE4F49-EEF7-4804-9F9D-6CFB1D2A37E4}.Debug|x86.ActiveCfg = Debug|Win32
+		{BEEE4F49-EEF7-4804-9F9D-6CFB1D2A37E4}.Debug|x86.Build.0 = Debug|Win32
+		{BEEE4F49-EEF7-4804-9F9D-6CFB1D2A37E4}.Release|x64.ActiveCfg = Release|x64
+		{BEEE4F49-EEF7-4804-9F9D-6CFB1D2A37E4}.Release|x64.Build.0 = Release|x64
+		{BEEE4F49-EEF7-4804-9F9D-6CFB1D2A37E4}.Release|x86.ActiveCfg = Release|Win32
+		{BEEE4F49-EEF7-4804-9F9D-6CFB1D2A37E4}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

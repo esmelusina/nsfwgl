@@ -35,7 +35,7 @@ namespace nsfw
 
 		void step()
 		{
-			Window::instance().step();
+			Window::instance().step();			
 			onStep();
 		}
 	};

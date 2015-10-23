@@ -164,8 +164,11 @@ bool nsfw::Assets::loadShader(const char * name, const char * vpath, const char 
 	GLuint vShader = glCreateShader(GL_VERTEX_SHADER);
 	GLuint fShader = glCreateShader(GL_FRAGMENT_SHADER);
 
-	glShaderSource(vShader, 1, (const char**)(vcontents.c_str()), 0);
-	glShaderSource(fShader, 1, (const char**)(fcontents.c_str()), 0);
+	const char *vs = vcontents.c_str();
+	const char *fs = fcontents.c_str();
+
+	glShaderSource(vShader, 1, &vs, 0);
+	glShaderSource(fShader, 1, &fs, 0);
 
 	glCompileShader(vShader);
 	glCompileShader(fShader);
