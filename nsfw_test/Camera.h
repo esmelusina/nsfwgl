@@ -7,8 +7,7 @@ struct Camera
 	glm::mat4 m_transform;
 	float m_near, m_far, m_aspect, m_fov;
 
-	Camera() : m_near(0), m_far(100), m_aspect(nsfw::Window::instance().getWidth()
-					            / (float)nsfw::Window::instance().getHeight()), m_fov(90) {}
+	Camera() : m_near(1), m_far(100), m_aspect(800/600.0f), m_fov(90) {}
 
 	void update() {}
 

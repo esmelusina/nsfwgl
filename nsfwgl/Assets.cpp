@@ -1,6 +1,7 @@
 #include <ogl\gl_core_4_4.h>
 #include "nsfw.h"
 #include <fstream>
+#include <stb\stb_image.h>
 
 using namespace nsfw::ASSET;
 
@@ -144,8 +145,21 @@ bool nsfw::Assets::makeTexture(const char * name, unsigned w, unsigned h, unsign
 
 bool nsfw::Assets::loadTexture(const char * name, const char * path)
 {
-	TODO_D("This should load a texture from a file, using makeTexture to perform the allocation.\nUse STBI, and make sure you switch the format STBI provides to match what openGL needs!");
-	return false;
+	int w, h, d;
+
+	unsigned char *p = stbi_load(path, &w, &h, &d, STBI_default);
+
+	switch (d)
+	{
+	case 1: d = GL_RED;  break;
+	case 2: d = GL_RG;   break;
+	case 3: d = GL_RGB;  break;
+	case 4: d = GL_RGBA; break;
+	}
+
+	makeTexture(name, w, h, d, p);
+	stbi_image_free(p);
+	return true;
 }
 
 bool nsfw::Assets::loadShader(const char * name, const char * vpath, const char * fpath)
@@ -207,9 +221,10 @@ void nsfw::Assets::init()
 	makeVAO("Cube", CubeVerts,24, CubeTris,36);
 	makeVAO("Quad", QuadVerts, 4, QuadTris, 6);
 	
-	unsigned char w[] = { 255,0, 255,255 };
-	makeTexture("Magenta", 2, 2, GL_RGBA, w);
-	
+	unsigned char w[] = {255,  0,255,255};
+	makeTexture("Magenta", 1, 1, GL_RGBA, w);	// texture not loaded properly
+	unsigned char t[] = {255,255,255,255};
+	makeTexture("White",   1, 1, GL_RGBA, t);		// null value
 }
 
 // <GL_TYPE Enum, String> : Handle
