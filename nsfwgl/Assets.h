@@ -109,7 +109,7 @@ namespace nsfw
 		bool makeFBO(const char *name, unsigned w, unsigned h, unsigned nTextures, const char *names[], const unsigned depths[]);
 
 		// should allocate space for a texture, but not necessarily set its data
-		bool makeTexture(const char *name, unsigned w, unsigned h, unsigned depth, const char *pixels = nullptr);
+		bool makeTexture(const char *name, unsigned w, unsigned h, unsigned depth, const unsigned char *pixels = nullptr);
 
 		// should load a texture from a file, use makeTexture to alloc, and then copy filedata in
 		bool loadTexture(const char *name, const char *path);

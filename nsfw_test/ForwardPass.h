@@ -2,6 +2,7 @@
 #include <ogl\gl_core_4_4.h>
 #include <nsfw.h>
 #include <glm\glm.hpp>
+#include <glm\ext.hpp>
 
 #include "Camera.h"
 #include "GameObject.h"
@@ -20,11 +21,13 @@ public:
 	void draw(const Camera &c, const GameObject &go)
 	{
 		//Camera
-		setUniform("Projection", nsfw::UNIFORM::MAT4, glm::value_ptr(c.getProjection()));
-		setUniform("View",	     nsfw::UNIFORM::MAT4, glm::value_ptr(c.getView()));
-		//GameObject
-		setUniform("Model",		 nsfw::UNIFORM::MAT4, glm::value_ptr(go.transform));
+		//setUniform("Projection", nsfw::UNIFORM::MAT4, glm::value_ptr(c.getProjection()));
+		//setUniform("View",	     nsfw::UNIFORM::MAT4, glm::value_ptr(c.getView()));
+		////GameObject
+		//setUniform("Model",		 nsfw::UNIFORM::MAT4, glm::value_ptr(go.transform));
 		setUniform("Diffuse",	 nsfw::UNIFORM::TEX2, &(go.diffuse));
+		
+		setUniform("offset", nsfw::UNIFORM::MAT4, glm::value_ptr(glm::translate(glm::vec3(0.5, 0, 0))));
 
 		glBindVertexArray(*go.mesh);
 		glDrawElements(GL_TRIANGLES, *go.tris, GL_UNSIGNED_INT, 0);

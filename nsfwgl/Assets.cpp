@@ -122,7 +122,7 @@ bool nsfw::Assets::makeFBO(const char * name, unsigned w, unsigned h, unsigned n
 	return true;
 }
 
-bool nsfw::Assets::makeTexture(const char * name, unsigned w, unsigned h, unsigned depth, const char *pixels)
+bool nsfw::Assets::makeTexture(const char * name, unsigned w, unsigned h, unsigned depth, const unsigned char *pixels)
 {
 	ASSET_LOG(GL_HANDLE_TYPE::TEXTURE);
 	unsigned texture;
@@ -207,8 +207,8 @@ void nsfw::Assets::init()
 	makeVAO("Cube", CubeVerts,24, CubeTris,36);
 	makeVAO("Quad", QuadVerts, 4, QuadTris, 6);
 	
-	char w[] = { 255,0,255,255 };
-	makeTexture("Magenta", 1, 1, GL_RGBA, w);
+	unsigned char w[] = { 255,0, 255,255 };
+	makeTexture("Magenta", 2, 2, GL_RGBA, w);
 	
 }
 
