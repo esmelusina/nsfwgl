@@ -1,6 +1,7 @@
 #include <ogl\gl_core_4_4.h>
 #include "nsfw.h"
 #include <fstream>
+#include <fbx\FBXFile.h>
 #include <stb\stb_image.h>
 
 using namespace nsfw::ASSET;
@@ -135,8 +136,8 @@ bool nsfw::Assets::makeTexture(const char * name, unsigned w, unsigned h, unsign
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	setINTERNAL(GL_HANDLE_TYPE::TEXTURE, name, texture);
@@ -146,15 +147,16 @@ bool nsfw::Assets::makeTexture(const char * name, unsigned w, unsigned h, unsign
 bool nsfw::Assets::loadTexture(const char * name, const char * path)
 {
 	int w, h, d;
+	unsigned char *p;
 
-	unsigned char *p = stbi_load(path, &w, &h, &d, STBI_default);
-
+	p = stbi_load(path, &w, &h, &d, STBI_default);
+	//1,2,3,4
 	switch (d)
 	{
-	case 1: d = GL_RED;  break;
-	case 2: d = GL_RG;   break;
-	case 3: d = GL_RGB;  break;
-	case 4: d = GL_RGBA; break;
+	case STBI_grey		 : d = GL_RED;  break;
+	case STBI_grey_alpha : d = GL_RG;	break;
+	case STBI_rgb		 : d = GL_RGB;  break;
+	case STBI_rgb_alpha	 : d = GL_RGBA; break;
 	}
 
 	makeTexture(name, w, h, d, p);
@@ -202,10 +204,47 @@ bool nsfw::Assets::loadShader(const char * name, const char * vpath, const char 
 
 bool nsfw::Assets::loadFBX(const char * name, const char * path)
 {
-	//name/meshName
-	//name/textureName
-	TODO_D("FBX file-loading support needed.\nThis function should call loadTexture and makeVAO internally.\nFBX meshes each have their own name, you may use this to name the meshes as they come in.\nMAKE SURE YOU SUPPORT THE DIFFERENCE BETWEEN FBXVERTEX AND YOUR VERTEX STRUCT!\n");
-	return false;
+	FBXFile file;
+
+	file.load(path, FBXFile::UNITS_METER);
+	//file.initialiseOpenGLTextures();
+	for (int i = 0; i < file.getMeshCount(); ++i)
+	{
+		unsigned tsize, vsize;
+		unsigned *tris;
+		Vertex *verts;
+		auto m = file.getMeshByIndex(i);
+		
+		verts = new   Vertex[vsize = m->m_vertices.size()];
+		tris  = new unsigned[tsize = m->m_indices.size()];
+
+		for (int i = 0; i < tsize; ++i)tris[i] = m->m_indices[i];
+
+		for (int i = 0; i < vsize; ++i)
+		{
+			verts[i].position = m->m_vertices[i].position;
+			verts[i].normal   = m->m_vertices[i].normal;
+			verts[i].tangent  = m->m_vertices[i].tangent;
+			verts[i].texCoord = m->m_vertices[i].texCoord1;
+		}
+
+		std::string n = name; n += m->m_name;
+		makeVAO(n.c_str(),verts,vsize,tris,tsize);
+		delete[]verts;
+		delete[]tris;
+	}
+
+
+	for (int i = 0; i < file.getTextureCount(); ++i)
+	{
+		auto t = file.getTextureByIndex(i);
+		
+		std::string n = name; n += t->name;
+		loadTexture(n.c_str(), t->path.c_str());
+	}
+
+	file.unload();
+	return true;
 }
 
 bool nsfw::Assets::loadOBJ(const char * name, const char * path)
@@ -221,10 +260,9 @@ void nsfw::Assets::init()
 	makeVAO("Cube", CubeVerts,24, CubeTris,36);
 	makeVAO("Quad", QuadVerts, 4, QuadTris, 6);
 	
-	unsigned char w[] = {255,  0,255,255};
-	makeTexture("Magenta", 1, 1, GL_RGBA, w);	// texture not loaded properly
-	unsigned char t[] = {255,255,255,255};
-	makeTexture("White",   1, 1, GL_RGBA, t);		// null value
+	unsigned char w[] = { 255,0, 255,255 };
+	makeTexture("Magenta", 1, 1, GL_RGBA, w);
+	
 }
 
 // <GL_TYPE Enum, String> : Handle

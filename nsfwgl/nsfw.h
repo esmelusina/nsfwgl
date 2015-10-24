@@ -1,5 +1,5 @@
 #pragma once
-
+#include <ogl\gl_core_4_4.h>
 #include <iostream>
 #include <cstring>
 #include <cassert>

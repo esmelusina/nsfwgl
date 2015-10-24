@@ -62,6 +62,8 @@ namespace nsfw
 		Asset() : t(T), name("") {}
 		Asset(const char *n) : name(n), t(T) {}								 // construct w/string if desired
 		Asset &operator=(const char *s) { name = s; return *this; }			 // conviently assign strings directly to reference		
+		Asset &operator=(const Asset &o) { name = o.name; return *this; }	 // conviently assign strings directly to reference		
+		
 		operator AssetKey()		const { return AssetKey(t, name); }				 // for use with Assets::Operator[]
 		GL_HANDLE operator*()	const { return Assets::instance()[*this]; } // Overload value-of operator, to dereference
         const void* operator&() const { return Assets::instance().getUNIFORM(*this); }

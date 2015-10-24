@@ -6,7 +6,7 @@
 void nsfw::Window::init(unsigned width, unsigned height, const char *title)
 {
 	glfwInit();
-	window = glfwCreateWindow(this->width = width,this->height = height, title, nullptr, nullptr);
+	window = glfwCreateWindow(width,height, title, nullptr, nullptr);
 	glfwMakeContextCurrent(window);
 	ogl_LoadFunctions();
 }
